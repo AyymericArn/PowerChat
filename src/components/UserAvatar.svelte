@@ -10,9 +10,12 @@
     let seconds = getRandomInt(5)
     let initialPosition
     let container
+    const position = { x: 0, y: 0 }
 
     // props
-    export const position = { x: 0, y: 0 }
+    export let user
+    export let MAX_X
+    export let MAX_Y
 
     const behaviors = {
         idle: () => {
@@ -68,16 +71,20 @@
     function animate () {
         frameCounter += 1
         requestAnimationFrame(animate)
-        if (position.x > -initialPosition.x) {
+        if (position.x > -initialPosition.x && position.x < MAX_X - 100) {
             position.x += forces.x
         } else {
-            position.x -= forces.x
+            forces.x = -forces.x
+            position.x += forces.x
         }
 
-        if (position.y > -initialPosition.y) {
+        if (position.y > -initialPosition.y && position.y < MAX_Y - 100) {
             position.y += forces.y
         } else {
-            position.y -= forces.y
+            console.log('hey');
+            
+            forces.y = -forces.y
+            position.y += forces.y
         }
 
         if (frameCounter % (60 * seconds) === 0) {
@@ -85,7 +92,6 @@
             frameCounter = 1
             changeState()
         }
-
     }
 
     onMount(() => {
@@ -93,6 +99,9 @@
             x: container.getClientRects()[0].left,
             y: container.getClientRects()[0].top
         }
+
+        position.x = Math.random() * (MAX_X - 100)
+        position.y = Math.random() * (MAX_Y - 100)
         animate()
     })
 
@@ -101,6 +110,15 @@
 <style>
     .container {
         position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    span {
+        text-align: center;
+        text-shadow: white 0 1px 0, white 1px 0 0, white 1px 1px 0, white 0 0 0 ;
+        /* background-color: white; */
     }
 
     .hidden {
@@ -120,6 +138,7 @@
     <!--{:else}-->
     <!--    <img src={ avatarSrc }>-->
     <!--{/if}-->
+    <span>{user.username}</span>
     <div class={getAnimationClass()}></div>
     <img class={state === 'idle' ? '' : 'hidden'} src={ avatarSrc }>
 </div>

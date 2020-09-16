@@ -7,30 +7,14 @@
     // array of Users
     let users
     let ul
-
-    /**
-     * @type Function
-     * @returns {{x: number, y: number}}
-     */
-    let getRandomPosition = () => null;
-    $: randomPosition = getRandomPosition()
+    let containerRight = window.innerWidth * 0.4, containerBottom = window.innerHeight * 0.4
 
     const unsubscribe = userList.subscribe(value => {
         users = value
     })
 
-    function addUser() {
-
-    }
-
-    for (const user of users) {
-        addUser()
-    }
-
     onMount(() => {
-        getRandomPosition = () => {
-            return { x: (Math.random() * ul.innerWidth), y: (Math.random() * ul.innerHeight) }
-        }
+        containerRight = ul.getClientRects()[0].right, containerBottom = ul.getClientRects()[0].bottom
     })
 
     // export let userList = [{username: 'Robin'}, {username: 'Michel'}]
@@ -45,7 +29,7 @@
 <ul bind:this={ul}>
     {#each users as user}
 <!--        <User bind:user={user}/>-->
-        <UserAvatar position={randomPosition} />
+        <UserAvatar user={user} MAX_X={containerRight} MAX_Y={containerBottom} />
     {/each}
 
 

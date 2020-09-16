@@ -2,7 +2,7 @@
     import { auth, user } from '../stores/auth'
     import { onMount } from 'svelte';
 
-    let username = 'didier'
+    let username = 'didier2'
     let avatarUrl = ''
 
     function login () {
