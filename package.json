@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@pyoner/svelte-types": "^3.4.4-2",
+    "lottie-web": "^5.7.3",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-svelte": "^4.0.6",
     "socket.io-client": "^2.3.0",

@@ -2,6 +2,9 @@
     import avatarSrc from '../assets/avatar.png'
     import { onMount } from 'svelte'
     import { getRandomInt } from '../utils'
+    import lottie from 'lottie-web'
+    import walkAnimation from '../assets/walking.json'
+    import talkAnimation from '../assets/talking.json'
 
     // state = idle, walking, talking
     let state = 'idle'
@@ -11,32 +14,40 @@
     let initialPosition
     let container
     const position = { x: 0, y: 0 }
+    let animationClass
 
     // props
     export let user
     export let MAX_X
     export let MAX_Y
 
+
     const behaviors = {
         idle: () => {
             forces.x = 0
             forces.y = 0
             state = 'idle'
+            animationClass = getAnimationClass()
         },
 
         talking: () => {
             forces.x = 0
             forces.y = 0
-            state = 'idle'
+            state = 'talking'
+            animationClass = getAnimationClass()
+            loadAnimation(talkAnimation)
         },
-
+        
         walking: (x = true, y = true) => {
             if (x)
-                forces.x = Math.round(100 * (Math.random() - 0.5)) / 100
-
+            forces.x = Math.round(100 * (Math.random() - 0.5)) / 100
+            
             if (y)
                 forces.y = Math.round(100 * (Math.random() - 0.5)) / 100
-            state = 'idle'
+            
+            loadAnimation(walkAnimation)
+            state = 'walking'
+            animationClass = getAnimationClass()
         }
     }
 
@@ -45,14 +56,14 @@
         behaviors[state]()
     }
 
-    function loadAnimation () {
-        // bodymovin.loadAnimation({
-        //     container: document.getElementById('bm'),
-        //     renderer: 'svg',
-        //     loop: true,
-        //     autoplay: true,
-        //     path: 'data.json'
-        // })
+    function loadAnimation (animation) {
+        lottie.loadAnimation({
+            container: document.getElementById('bm'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: animation
+        })
     }
 
 
@@ -102,6 +113,7 @@
 
         position.x = Math.random() * (MAX_X - 100)
         position.y = Math.random() * (MAX_Y - 100)
+        loadAnimation()
         animate()
     })
 
@@ -125,6 +137,11 @@
         display: none;
     }
 
+    .bm {
+        height: 115px;
+        width: 115px;
+    }
+
     .container > div, .container > img {
         height: 115px;
     }
@@ -139,6 +156,6 @@
     <!--    <img src={ avatarSrc }>-->
     <!--{/if}-->
     <span>{user.username}</span>
-    <div class={getAnimationClass()}></div>
+    <div class={animationClass}></div>
     <img class={state === 'idle' ? '' : 'hidden'} src={ avatarSrc }>
 </div>
