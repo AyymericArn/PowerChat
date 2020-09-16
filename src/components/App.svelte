@@ -49,6 +49,9 @@
 </script>
 
 <style>
+    .app {
+        display: flex;
+    }
     h1 {
         font-size: 16px;
     }
@@ -58,8 +61,10 @@
     <!--    routing-->
     {#if isRegistered}
         <UserList></UserList>
-        <MessageList></MessageList>
-        <NewMessage></NewMessage>
+        <div class="messageSystem">
+            <MessageList></MessageList>
+            <NewMessage></NewMessage>
+        </div>
     {:else}
         <Login/>
     {/if}

@@ -8,6 +8,7 @@
 
     function sendMessage () {
         socket.emit('message new', message)
+        message = ''
     }
 </script>
 
