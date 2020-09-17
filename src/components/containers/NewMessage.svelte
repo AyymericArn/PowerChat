@@ -12,6 +12,16 @@
     let kisses = []
     const heartNumber = 5
 
+    let keystrokes = []
+
+    function keystrokeHandler (e) {
+        keystrokes = [...keystrokes, e.target.value.length * 5]
+        setTimeout(() => {
+            keystrokes.shift()
+            keystrokes = keystrokes
+        }, 500)
+    }
+
     function sendMessage () {
         socket.emit('message new', message)
         message = ''
@@ -23,7 +33,9 @@
         }
 
         isSending = true;
-
+        setTimeout(() => {
+            isSending = false
+        }, 1000)
 
 
         setTimeout(() => {
@@ -35,6 +47,7 @@
 <style>
     form {
         margin-bottom: 46px;
+        display: flex;
     }
     #new-message {
         padding: 18px 30px;
@@ -66,15 +79,18 @@
 
     .input-container {
         width: 70%;
-        margin: auto;
-        border-radius: 50px;
         /*debug*/
         /*border: black solid 1px;*/
+        justify-content: space-between;
+        font-family: 'Aracne';
+    }
+
+    .input-container, .reacts {
         border: none;
         box-shadow: #00000010 0 3px 6px;
         display: flex;
-        justify-content: space-between;
-        font-family: 'Aracne';
+        margin: auto;
+        border-radius: 50px;
     }
 
     .input-container > button {
@@ -84,17 +100,29 @@
         background: none;
         border: none;
         margin-right: 30px;
-        transform: rotate(0) scale(1);
-        transition: transform 0.5s cubic-bezier(1, -0.5, -0.5, 1);
     }
+    
     .input-container > button > img {
+        /*transform: rotate(0) scale(1);*/
         transform: scale(2) translateY(-2px);
+        transition: transform 0.5s cubic-bezier(1, -0.5, -0.5, 1) !important;
         transform-origin: top;
         height: 50%;
     }
 
     .bounce {
-        transform: scale(1.3) rotate(-15deg);
+        animation-name: bounce;
+        animation-duration: 0.5s;
+        animation-iteration-count: 2;
+        animation-direction: alternate;
+        /*transform: scale(3.3) rotate(-15deg) !important;*/
+        /*transition: transform 0.5s cubic-bezier(1, -0.5, -0.5, 1) !important;*/
+        /*transform-origin: center;*/
+    }
+    
+    @keyframes bounce {
+        from {transform: scale(2) translateY(-2px);}
+        to {transform: scale(2.3) rotate(-15deg) ;}
     }
 
     @keyframes float {
@@ -124,11 +152,33 @@
 </style>
 
 <form on:submit|preventDefault={sendMessage}>
+    <button>
 
+    </button>
+    <div class="reacts">
+        <button>
+
+        </button>
+        <button>
+
+        </button>
+        <button>
+
+        </button>
+        <button>
+
+        </button>
+        <button>
+
+        </button>
+    </div>
     <div class="input-container">
-        <input placeholder="Partage ton amour de l'autre..." bind:value={message} type="text" name="new-message" id="new-message">
+        <input on:change={keystrokeHandler} placeholder="Partage ton amour de l'autre..." bind:value={message} type="text" name="new-message" id="new-message">
+        {#each keystrokes as keystroke}
+            <img class="floating" src={kissSrc} alt="love">
+        {/each}
         <button type="submit">
-            <img src={sendButtonSrc} alt="send">
+            <img class={isSending ? 'bounce' : ''} src={sendButtonSrc} alt="send">
             {#each kisses as kiss}
                 <img class="floating" src={kissSrc} alt="love">
             {/each}
