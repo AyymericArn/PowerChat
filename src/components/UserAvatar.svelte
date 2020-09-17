@@ -12,9 +12,13 @@
     let frameCounter = 1
     let seconds = getRandomInt(5)
     let initialPosition
-    let container
     const position = { x: 0, y: 0 }
     let animationClass
+    let anim
+
+    // DOM refs
+    let container
+    let animDiv
 
     // props
     export let user
@@ -57,8 +61,9 @@
     }
 
     function loadAnimation (animation) {
-        lottie.loadAnimation({
-            container: document.getElementById('bm'),
+        if (anim) anim.destroy()
+        anim = lottie.loadAnimation({
+            container: animDiv,
             renderer: 'svg',
             loop: true,
             autoplay: true,
@@ -156,6 +161,6 @@
     <!--    <img src={ avatarSrc }>-->
     <!--{/if}-->
     <span>{user.username}</span>
-    <div class={animationClass}></div>
+    <div bind:this={animDiv} class={animationClass}></div>
     <img class={state === 'idle' ? '' : 'hidden'} src={ avatarSrc }>
 </div>
