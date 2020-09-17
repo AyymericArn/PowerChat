@@ -100,6 +100,7 @@
         background: none;
         border: none;
         margin-right: 30px;
+        cursor: pointer;
     }
     
     .input-container > button > img {

@@ -25,7 +25,6 @@
         width: max-content;
     }
 
-
     p:first-of-type {
         font-family: 'BlackBubble';
         font-size: 16px;
