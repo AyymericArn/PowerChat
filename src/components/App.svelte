@@ -13,8 +13,12 @@
 
     const socket = io('https://bddi-2019-chat.herokuapp.com/')
 
+    const colors = ['00CCFF', '142D52', 'FFBBF7', 'FFEAC3', 'FF5552', 'FF2EFD']
+
     socket.on('users update', ({users}) => {
-        userList.set(users)
+        userList.set(users.map((u, i) => {
+            return {...u, color: colors[i % 6]}
+        }))
     })
 
     socket.on('user registered', (infos) => {
@@ -54,6 +58,9 @@
     }
     h1 {
         font-size: 16px;
+    }
+    .messageSystem {
+        width: 75%;
     }
 </style>
 

@@ -13,6 +13,7 @@
     }
 
     onMount(() => {
+        console.log(username)
         login()
     })
 </script>

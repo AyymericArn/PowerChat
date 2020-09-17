@@ -21,14 +21,23 @@
             tick()
                 .then(() => ul.scrollTo(0, ul.scrollHeight))
         })
+
+        const styles = document.querySelectorAll('style[id^="svelte"]')
+        Array.from(styles).forEach(node => node.remove())
     })
 
 </script>
 
 <style>
     ul {
-        overflow: scroll;
-        max-height: 90vh;
+        overflow-y: scroll;
+        height: 87vh;
+        margin-bottom: 40px;
+        box-sizing: border-box;
+        background-image: url("../../assets/illustrations/background.svg");
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        background-size: 70%;
     }
 </style>
 
