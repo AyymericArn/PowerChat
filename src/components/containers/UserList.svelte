@@ -27,20 +27,56 @@
     img {
         margin-bottom: 40px;
     }
-    ul {
+    .user-list {
+        overflow-y: scroll;
         padding: 38px;
         width: 25%;
+        height: 100vh;
         background-image: linear-gradient(#FFEAC3, #FFBBF7);
         margin: 0;
     }
+    ul {
+        position: relative;
+        height: 80%;
+        overflow-y: scroll;
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    ul::before {
+        display: inline-block;
+        content: '';
+        width: 100%;
+        position: sticky;
+        left: 0;
+        top: 0;
+        height: 50px;
+        background-image: linear-gradient(#ffe4c9, transparent);
+    }
+
+    ul::after {
+        display: inline-block;
+        content: '';
+        width: 100%;
+        position: sticky;
+        left: 0;
+        bottom: 0;
+        height: 50px;
+        background-image: linear-gradient(transparent, #ffc0f0);
+    }
 </style>
 
-<ul bind:this={ul}>
+<div class="user-list" bind:this={ul}>
     <img src={logoSrc} alt="kisskisschatchat">
-    {#each users as user, key}
-        <User bind:user={user} key={key}/>
-<!--        <UserAvatar user={user} MAX_X={containerRight} MAX_Y={containerBottom} />-->
-    {/each}
+    <ul>
+        {#each users as user, key}
+            <User bind:user={user} key={key}/>
+    <!--        <UserAvatar user={user} MAX_X={containerRight} MAX_Y={containerBottom} />-->
+        {/each}
+    </ul>
 
 
-</ul>
+</div>

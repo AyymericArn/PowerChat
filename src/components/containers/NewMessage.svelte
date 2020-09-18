@@ -3,6 +3,29 @@
     import sendButtonSrc from '../../assets/buttons/send.svg'
     import kissSrc from '../../assets/kiss.svg'
 
+    const iconsSrc = {
+        inlove: {
+            src: require('../../assets/buttons/inlove.svg'),
+            emoji: '😍'
+        },
+        shine: {
+            src: require('../../assets/buttons/shine.svg'),
+            emoji: '✨'
+        },
+        lips: {
+            src: require('../../assets/buttons/lips.svg'),
+            emoji: '💋'
+        },
+        rainbow: {
+            src: require('../../assets/buttons/rainbow.svg'),
+            emoji: '🌈'
+        },
+        heart: {
+            src: require('../../assets/buttons/heart.svg'),
+            emoji: '❤️'
+        }
+    }
+
     const { getSocket } = getContext('socket')
     const socket = getSocket()
 
@@ -11,6 +34,9 @@
 
     let kisses = []
     const heartNumber = 5
+
+    let emojis = []
+    const emojiNumber = 5
 
     let keystrokes = []
 
@@ -31,6 +57,23 @@
         setTimeout(() => {
             keystrokes.shift()
             keystrokes = keystrokes
+        }, 500)
+    }
+
+    function setEmoji (e) {
+        const target = e.currentTarget
+        for (const i of [...Array(heartNumber).keys()]) {
+            setTimeout(() => {
+                emojis = [...emojis, {src: target.firstChild.src, left: e.clientX - target.parentNode.getClientRects()[0].left}];
+            }, 300 * i)
+        }
+        setTimeout(() => {
+            emojis = []
+        },2000 * heartNumber)
+
+        message += e.currentTarget.dataset.emoji
+        setTimeout(() => {
+            kisses = []
         }, 500)
     }
 
@@ -91,6 +134,10 @@
         left: 0;
     }
 
+    /*.floating.emoji {*/
+    /*    ani*/
+    /*}*/
+
     .input-container {
         width: 70%;
         /*debug*/
@@ -107,7 +154,7 @@
         border-radius: 50px;
     }
 
-    .input-container > button {
+    .input-container > button, .reacts > button {
         position: relative;
         height: 40px;
         display: inline-block;
@@ -115,6 +162,22 @@
         border: none;
         margin-right: 30px;
         cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0,1.22,.37,1.11);
+        will-change: transform;
+    }
+
+    .input-container > button:hover, .reacts > button:hover {
+        transform: scale(1.2);
+    }
+
+    .reacts {
+        position: relative;
+        padding: 18px 30px;
+    }
+
+    .reacts > button {
+        transform: scale(1);
+        margin-right: initial;
     }
     
     .input-container > button > img {
@@ -171,21 +234,14 @@
 
     </button>
     <div class="reacts">
-        <button>
-
-        </button>
-        <button>
-
-        </button>
-        <button>
-
-        </button>
-        <button>
-
-        </button>
-        <button>
-
-        </button>
+        {#each Object.values(iconsSrc) as icon}
+                <button type="button" data-emoji={icon.emoji} on:click={setEmoji}>
+                    <img src={icon.src} alt="">
+                </button>
+                {#each emojis as emoji}
+                    <img style={`left:${emoji.left - 25}px;`} class="floating emoji" src={emoji.src} alt="love">
+                {/each}
+        {/each}
     </div>
     <div class="input-container">
         <input on:change={keystrokeHandler} placeholder="Partage ton amour de l'autre..." bind:value={message} type="text" name="new-message" id="new-message">

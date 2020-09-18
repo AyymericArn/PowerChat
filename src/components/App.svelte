@@ -8,6 +8,7 @@
     import { messageList } from '../stores/messages'
     import { auth, user } from '../stores/auth'
     import { setContext } from 'svelte'
+    import nicknames from '../assets/datacollection/pseudos.json'
 
     import io from 'socket.io-client'
 
@@ -17,7 +18,7 @@
 
     socket.on('users update', ({users}) => {
         userList.set(users.map((u, i) => {
-            return {...u, color: colors[i % 6]}
+            return {...u, color: colors[i % 6], nickname: nicknames.pop()}
         }))
     })
 

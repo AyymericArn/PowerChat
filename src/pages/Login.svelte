@@ -10,7 +10,7 @@
     import nicknames from '../assets/datacollection/pseudos.json'
     import kissSrc from '../assets/kiss.svg'
 
-    let username = ''
+    let username = 'didier'
     let quote = quotes[Math.floor(Math.random() * quotes.length)]
 
     let hasSubmitted = false
@@ -68,15 +68,19 @@
       mousePosition.x = e.clientX - window.innerWidth/2
       mousePosition.y = e.clientY - window.innerHeight/2
 
-      for (const image of images) {        
-        image.style = `transform: translate(${-mousePosition.x * 0.02 * parseFloat(image.dataset.depth)}px, ${-mousePosition.y * 0.02 * parseFloat(image.dataset.depth)}px);`
+      for (const image of images) {
+          try {
+               image.style = `transform: translate(${-mousePosition.x * 0.02 * parseFloat(image.dataset.depth)}px, ${-mousePosition.y * 0.02 * parseFloat(image.dataset.depth)}px);`
+          } catch (e) {
+
+          }
       }
     }
 
-    // onMount(() => {
-    //     console.log(username)
-    //     login()
-    // })
+    onMount(() => {
+        console.log(username)
+        login()
+    })
 </script>
 
 <style>
