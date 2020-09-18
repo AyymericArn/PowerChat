@@ -11,7 +11,6 @@
     let ul
     let containerRight = window.innerWidth * 0.4, containerBottom = window.innerHeight * 0.4
 
-
     const unsubscribe = userList.subscribe(value => {
         users = value
     })
@@ -24,6 +23,10 @@
 </script>
 
 <style>
+
+    img {
+        margin-bottom: 40px;
+    }
     ul {
         padding: 38px;
         width: 25%;

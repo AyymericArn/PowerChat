@@ -14,6 +14,18 @@
 
     let keystrokes = []
 
+    let buttonSub
+
+    const sounds = {
+      kissHover: new Audio(require('../../assets/sounds/Kiss_hoover.mp3')),
+      kiss: new Audio(require('../../assets/sounds/kisses.mp3')),
+    }
+
+    const soundManager = {
+      kissHover: () => sounds.kissHover.play(),
+      kiss: () => sounds.kiss.play(),
+    }
+
     function keystrokeHandler (e) {
         keystrokes = [...keystrokes, e.target.value.length * 5]
         setTimeout(() => {
@@ -25,6 +37,8 @@
     function sendMessage () {
         socket.emit('message new', message)
         message = ''
+
+        soundManager.kiss()
 
         for (const i of [...Array(heartNumber).keys()]) {
             setTimeout(() => {
@@ -178,7 +192,7 @@
         {#each keystrokes as keystroke}
             <img class="floating" src={kissSrc} alt="love">
         {/each}
-        <button type="submit">
+        <button on:mouseover={soundManager.kissHover} bind:this={buttonSub} type="submit">
             <img class={isSending ? 'bounce' : ''} src={sendButtonSrc} alt="send">
             {#each kisses as kiss}
                 <img class="floating" src={kissSrc} alt="love">

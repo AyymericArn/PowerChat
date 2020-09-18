@@ -10,6 +10,7 @@
 <style>
 
     li {
+        animation: pop 0.5s ease 1 both;
         list-style: none;
         display: block;
         padding: 16px 24px;
@@ -37,9 +38,9 @@
     }
 
     @keyframes pop {
-        0% {transform: scale(0)}
-        75% {transform: scale(0)}
-        100% {transform: scale(0)}
+        0% {transform: scale(0) rotate(10deg);}
+        65% {transform: scale(1.1) rotate(-5deg)}
+        100% {transform: scale(1) rotate(0)}
     }
 
     .own {

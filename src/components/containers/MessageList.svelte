@@ -29,18 +29,26 @@
 </script>
 
 <style>
+    
+    .fade {
+      position: absolute;
+      height: 100px;
+      width: 100%;
+      background-image: linear-gradient(white, rgba(255, 255, 255, 0.849), transparent);
+    }
     ul {
         overflow-y: scroll;
         height: 87vh;
         margin-bottom: 40px;
         box-sizing: border-box;
-        background-image: url("../../assets/illustrations/background.svg");
+        background-image: url("../../assets/illustrations/background2.svg");
         background-repeat: no-repeat;
         background-position: bottom right;
-        background-size: 70%;
+        background-size: 78%;
     }
 </style>
 
+<div class="fade"></div>
 <ul bind:this={ul}>
     {#each messages as message}
         <Messsage bind:message={message}/>
